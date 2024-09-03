@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import './App.css'
+import "./App.css";
 
 interface QuoteInterface {
   id: number;
@@ -17,21 +17,34 @@ const Quote = (): JSX.Element => {
         setQuote(data);
       });
   };
-  useEffect(getQuote, []);
+  useEffect(()=>{
+    if(!quote) getQuote()
+  }, []);
 
-  return (
-    <div className="parent-div">
-      <div>
-        <h1>{quote?.quote}</h1>
+  if (quote) {
+    return (
+      <div className="parent-div">
+        <div>
+          <h1>{quote?.quote}</h1>
+        </div>
+        <div>
+          <h4>-{quote?.author}</h4>
+        </div>
+        <div>
+          <button onClick={getQuote}>Get Quote</button>
+        </div>
       </div>
-      <div>
-        <h4>-{quote?.author}</h4>
-      </div>
-      <div>
-        <button onClick={getQuote}>Get Quote</button>
-      </div>
-    </div>
-  );
+    );
+  }else{
+    return (
+        <div className="parent-div">
+            <h1>Quote is comming just wait a bit. OK??</h1>
+            <div>
+          <button onClick={getQuote}>Get Quote</button>
+        </div>
+        </div>
+    )
+  }
 };
 
 export default Quote;
